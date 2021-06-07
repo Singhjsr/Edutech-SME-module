@@ -5,6 +5,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+
+
 
 import edutech.sme.dao.SmeRepository;
 import edutech.sme.entities.Sme;
@@ -42,7 +45,9 @@ class SmeModuleApplicationTests {
 		s1.setPhone("00100");
 		s1.setSubject("java");
 
-		List<Sme> list = List.of(s, s1);
+		List<Sme> list = new ArrayList<Sme>();
+		list.add(s);
+		list.add(s1);
 
 		when(smer.findAll()).thenReturn(list);
 		assertEquals(list, smes.showAll());
@@ -57,24 +62,19 @@ class SmeModuleApplicationTests {
 		s.setName("shyam");
 		s.setPhone("10000");
 		s.setSubject("jpa");
-
+when(smer.save(s)).thenReturn(s);
 		smes.add(s);
+		
 		verify(smer, times(1)).save(s);
 
 	}
 
 	@Test
 	 void deleteTest() {
-		Sme s = new Sme();
-		s.setUsername("username1");
-		s.setId(103);
-		s.setEmail("gmails");
-		s.setName("shyam");
-		s.setPhone("10000");
-		s.setSubject("jpa");
+		
 
-		smes.add(s);
-		verify(smer, times(1)).save(s);
+		smes.delete(100);
+		verify(smer, times(1)).deleteById(100);
 
 	}
 
