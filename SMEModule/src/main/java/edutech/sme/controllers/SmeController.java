@@ -31,85 +31,86 @@ import io.swagger.annotations.ApiParam;
 @RestController
 @RequestMapping("/sme")
 public class SmeController {
-	
+
 	@Autowired
 	RestTemplate restTemplate;
-	
+
 	@Autowired
 	SmeService s;
-	Logger log=LoggerFactory.getLogger(SmeController.class);
-	
-	
-	@ApiOperation(value="show all SME", notes="this api will show all the SMEs")
+	Logger log = LoggerFactory.getLogger(SmeController.class);
+
+	@ApiOperation(value = "show all SME", notes = "this api will show all the SMEs")
 	@GetMapping("/list")
 	public List<Sme> view() throws SMEException {
-		List<Sme> sme=s.showAll();
-		if(s.showAll().isEmpty()) {
-		log.info("request for SME list that is empty");
-		throw new SMEException("NO SME FOUND");
+		List<Sme> sme = s.showAll();
+		if (s.showAll().isEmpty()) {
+			log.info("request for SME list that is empty");
+			throw new SMEException("NO SME FOUND");
 		}
 		log.info("request for SME list");
 		return sme;
 
 	}
-	@ApiOperation(value="add new SME" ,notes="this api will add new SME")
+
+	@ApiOperation(value = "add new SME", notes = "this api will add new SME")
 	@PostMapping("/add")
-	public ResponseEntity<SuccessInfo>  join(@ApiParam(value="new sme data")@Valid @RequestBody SmeDTO smeDTO) {
-		Sme sme=smeDTO.convertToSmeEntity();
-		int id=s.add(sme);
-		
+	public ResponseEntity<SuccessInfo> join(@ApiParam(value = "new sme data") @Valid @RequestBody SmeDTO smeDTO) {
+		Sme sme = smeDTO.convertToSmeEntity();
+		int id = s.add(sme);
+
 		log.info("adding new SME to database");
-		SuccessInfo info=new SuccessInfo("Added Successfully with id "+id,HttpStatus.OK);
-		return new ResponseEntity<>(info,HttpStatus.OK);
+		SuccessInfo info = new SuccessInfo("Added Successfully with id " + id, HttpStatus.OK);
+		return new ResponseEntity<>(info, HttpStatus.OK);
 	}
-	@ApiOperation(value="delete SME" ,notes="this api will delete SME by id provided")
+
+	@ApiOperation(value = "delete SME", notes = "this api will delete SME by id provided")
 	@DeleteMapping("/remove/{id}")
-	public ResponseEntity<SuccessInfo> remove(@ApiParam(value="id to remove data of SME")@PathVariable int id) {
+	public ResponseEntity<SuccessInfo> remove(@ApiParam(value = "id to remove data of SME") @PathVariable int id) {
 		s.delete(id);
 		log.info("deleting SME from database for id ");
-		SuccessInfo info=new SuccessInfo("Deleted Successfully",HttpStatus.OK);
-		return new ResponseEntity<>(info,HttpStatus.OK);
-		
+		SuccessInfo info = new SuccessInfo("Deleted Successfully", HttpStatus.OK);
+		return new ResponseEntity<>(info, HttpStatus.OK);
+
 	}
-	@ApiOperation(value="sh0w SME detail by id" , notes="this api will show SME based on their id")
+
+	@ApiOperation(value = "sh0w SME detail by id", notes = "this api will show SME based on their id")
 	@GetMapping("/{id}")
-	public Sme viewById(@ApiParam(value="id of SME")@PathVariable int id) throws SMEException {
-		Sme sme=s.byId(id);
-		if(sme==null) {
+	public Sme viewById(@ApiParam(value = "id of SME") @PathVariable int id) throws SMEException {
+		Sme sme = s.byId(id);
+		if (sme == null) {
 			log.info("no such SME with id ");
 			throw new SMEException("NO SUCH ID FOUND");
-		
+
 		}
 		log.info("finding and returning SME for id ");
 		return sme;
 	}
-	@ApiOperation(value="update SME" ,notes="this api will update SME")
+
+	@ApiOperation(value = "update SME", notes = "this api will update SME")
 	@PutMapping("/modify/{id}")
-	public ResponseEntity<SuccessInfo> update(@ApiParam(value="SME data for updation")@Valid @RequestBody SmeDTO smeDTO ,@PathVariable int id) {
-		Sme sme=smeDTO.convertToSmeEntity();
+	public ResponseEntity<SuccessInfo> update(
+			@ApiParam(value = "SME data for updation") @Valid @RequestBody SmeDTO smeDTO, @PathVariable int id) {
+		Sme sme = smeDTO.convertToSmeEntity();
 		sme.setId(id);
 		s.update(sme);
 		log.info("updating SME");
-		SuccessInfo info=new SuccessInfo("UPDATED Successfully",HttpStatus.ACCEPTED);
-		return new ResponseEntity<>(info,HttpStatus.ACCEPTED);
-		
-		
-		
-			
-		}
-	@ApiOperation(value="view appointment list",notes="this api will return appointment list")
+		SuccessInfo info = new SuccessInfo("UPDATED Successfully", HttpStatus.ACCEPTED);
+		return new ResponseEntity<>(info, HttpStatus.ACCEPTED);
+
+	}
+
+	@ApiOperation(value = "view appointment list", notes = "this api will return appointment list")
 	@GetMapping("/appointment/list")
-	public List<Appointment> getAllAppointments() throws SMEException{
+	public List<Appointment> getAllAppointments() throws SMEException {
 		log.info("getAllAppointments method in controller called");
 		try {
-			List<Appointment> ls=restTemplate.getForObject("http://edutech-appointment/appointment/list", List.class);
-			return ls;
-		}
-		catch(Exception e) {
+
+			return restTemplate.getForObject("http://edutech-appointment/appointment/list", List.class);
+		} catch (Exception e) {
 			throw new SMEException("Data retreived failed");
-			
+
 		}
-		
+
 	}
 
 }

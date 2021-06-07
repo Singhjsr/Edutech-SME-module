@@ -3,20 +3,20 @@ package edutech.sme.models;
 import java.util.Date;
 
 public class Appointment {
-	private int studId;
+	private int studentID;
 	private int smeId;
 	private Date dateOfAppointment;
 
 	private boolean isApproved;
-	
+
 	private boolean isCancelled;
 
 	public int getStudId() {
-		return studId;
+		return studentID;
 	}
 
 	public void setStudId(int studId) {
-		this.studId = studId;
+		this.studentID = studId;
 	}
 
 	public int getSmeId() {
@@ -32,6 +32,7 @@ public class Appointment {
 	}
 
 	public void setDateOfAppointment(Date dateOfAppointment) {
+
 		this.dateOfAppointment = dateOfAppointment;
 	}
 
@@ -50,6 +51,5 @@ public class Appointment {
 	public void setCancelled(boolean isCancelled) {
 		this.isCancelled = isCancelled;
 	}
-	
-	
+
 }

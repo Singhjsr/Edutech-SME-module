@@ -14,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-
-
 import edutech.sme.dao.SmeRepository;
 import edutech.sme.entities.Sme;
 import edutech.sme.services.SmeService;
@@ -28,7 +26,7 @@ class SmeModuleApplicationTests {
 	private SmeRepository smer;
 
 	@Test
-	 void showAllTest() {
+	void showAllTest() {
 		Sme s = new Sme();
 		s.setUsername("username1");
 		s.setId(100);
@@ -54,7 +52,7 @@ class SmeModuleApplicationTests {
 	}
 
 	@Test
-	 void addTest() {
+	void addTest() {
 		Sme s = new Sme();
 		s.setUsername("username1");
 		s.setId(103);
@@ -62,16 +60,15 @@ class SmeModuleApplicationTests {
 		s.setName("shyam");
 		s.setPhone("10000");
 		s.setSubject("jpa");
-when(smer.save(s)).thenReturn(s);
+		when(smer.save(s)).thenReturn(s);
 		smes.add(s);
-		
+
 		verify(smer, times(1)).save(s);
 
 	}
 
 	@Test
-	 void deleteTest() {
-		
+	void deleteTest() {
 
 		smes.delete(100);
 		verify(smer, times(1)).deleteById(100);
@@ -79,7 +76,7 @@ when(smer.save(s)).thenReturn(s);
 	}
 
 	@Test
-	 void showById() {
+	void showById() {
 		Sme s = new Sme();
 		s.setUsername("username1");
 		s.setId(100);
@@ -102,7 +99,7 @@ when(smer.save(s)).thenReturn(s);
 	}
 
 	@Test
-	 void ModifyTest() {
+	void ModifyTest() {
 		Sme s = new Sme();
 		s.setUsername("username1");
 		s.setId(103);
