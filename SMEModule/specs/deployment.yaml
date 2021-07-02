@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: myapp
+  name: smeapp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: myapp
+      app: smeapp
   template:
     metadata:
       labels:
-        app: myapp
+        app: smeapp
     spec:
       containers:
-      - name: myapp-app
+      - name: smeapp-app
         # Replace $GCLOUD_PROJECT with your project ID
-        image: gcr.io/$GCLOUD_PROJECT/edutechSME:latest
+        image: gcr.io/$GCLOUD_PROJECT/smeapp:latest
         # This app listens on port 8080 for web traffic by default.
         ports:
         - containerPort: 8080
